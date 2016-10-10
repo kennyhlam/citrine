@@ -66,7 +66,7 @@ def get_value(expr):
     '''
     print "-"*30
     print "expr: {}".format(expr)
-    if type(expr) == str:
+    if type(expr) == str or type(expr) == unicode:
         return convert_to_si(expr)
     elif type(expr) == list:
         div = lambda x, y: x/y
@@ -100,7 +100,7 @@ def get_value(expr):
             print "units: {}".format(units)
             print "after_val: {}".format(conversion)
     else:
-        raise RuntimeError('Cannot determine value of {}'.format(expr))
+        raise RuntimeError('Cannot determine value of {} with type {}.'.format(expr, type(expr)))
 
     return (conversion, units)
 
