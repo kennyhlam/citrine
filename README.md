@@ -26,3 +26,14 @@ Input is assumed to be non-SI units, and is case-sensitive.
 
 # Server 
 To run the server in development mode, the command is as simple as: `./run.sh`
+
+# Deployment
+The deployment can be found at:  
+https://agile-earth-23560.herokuapp.com
+
+Queries like the following are valid:  
+https://agile-earth-23560.herokuapp.com/units/si?units=°
+
+Note on how to deploy a flask app to heroku:  
+https://devcenter.heroku.com/articles/python-gunicorn  
+https://community.nitrous.io/tutorials/deploying-a-flask-application-to-heroku
