@@ -18,6 +18,6 @@ def convert():
     d = {
         'unit_name': stringify_expr(si_units),
         # format to 14 decimal places
-        'multiplication_factor': float("{0:.14f}".format(conversion_factor))
+        'multiplication_factor': round(conversion_factor, 14)
     }
     return jsonify(**d)
