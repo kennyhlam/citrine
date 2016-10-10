@@ -64,8 +64,7 @@ def get_value(expr):
             - (float) conversion is the multiplication factor to convert units to SI
             - (array) units is an expression array matching the input expr
     '''
-    print "-"*30
-    print "expr: {}".format(expr)
+
     if type(expr) == str or type(expr) == unicode:
         return convert_to_si(expr)
     elif type(expr) == list:
@@ -76,15 +75,9 @@ def get_value(expr):
         units = [l_operand[1]]
         conversion = l_operand[0]
 
-        print "l_val: {}".format(l_operand)
         for i in xrange(1, len(expr)-1, 2):
             op = expr[i]
             r_operand = get_value(expr[i+1])
-            print "i: {}".format(i)
-            print "op: {}".format(op)
-            print "r_val: {}".format(r_operand)
-            print "before_val: {}".format(conversion)
-            
 
             if op == '/':
                 units.append('/')
@@ -95,12 +88,10 @@ def get_value(expr):
                 units.append(r_operand[1])
                 conversion = mult(conversion, r_operand[0])
             else:
-                raise RuntimeError("Unknown operation: {}".format(op))
-            
-            print "units: {}".format(units)
-            print "after_val: {}".format(conversion)
+                raise RuntimeError(u"Unknown operation: {}".format(op))
+
     else:
-        raise RuntimeError('Cannot determine value of {} with type {}.'.format(expr, type(expr)))
+        raise RuntimeError(u'Cannot determine value of {} with type {}.'.format(expr, type(expr)))
 
     return (conversion, units)
 
@@ -112,7 +103,7 @@ si_conversion = {
     'day': (86400.0, 's'),
     'd': (86400.0, 's'),
     'degree': (math.pi/180.0, 'rad'),
-    '°': (math.pi/180.0, 'rad'),
+    u'°': (math.pi/180.0, 'rad'),
     "'": (math.pi/180.0, 'rad'),
     'second': (math.pi/648000.0, 'rad'),
     '"': (math.pi/648000.0, 'rad'),
@@ -120,8 +111,8 @@ si_conversion = {
     'ha': (10000.0, 'm2'),
     'litre': (.001, 'm3'),
     'L': (.001, 'm3'),
-    'tonne': (10000.0, 'kg'),
-    't': (10000.0, 'kg')
+    'tonne': (1000.0, 'kg'),
+    't': (1000.0, 'kg')
 }
 def convert_to_si(base_unit):
     '''
@@ -143,21 +134,12 @@ def stringify_expr(expr):
 
         Returns a string of the expr flattened
     '''
-    s = ''
+    s = u''
     for entry in expr:
         if type(entry) == str:
             s += entry
         elif type(entry) == list:
             s += '(' + stringify_expr(entry) + ')'
         else:
-            raise RuntimeError("Unable to stringify element: {}".format(entry))
+            raise RuntimeError(u"Unable to stringify element: {}".format(entry))
     return s
-
-
-if __name__ == '__main__':
-    e = parse('(degree/minute)*minute*h')
-    # e = parse('a/(b*c)')
-    print e
-    v = get_value(e)
-    print "final value: {}".format(v)
-    print "final string: {}".format(stringify_expr(v[1]))
