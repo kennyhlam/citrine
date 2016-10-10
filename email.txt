@@ -1,0 +1,23 @@
+Hi <CTO>,
+
+I'll try to keep this as short as I can, but I do want to address some of the issues we've been having with the data pipeline.
+
+Right now, things are pretty much manual on the deployment side, and I think we should really just bite the bullet now and move to a more automated release system as soon as we can. The longer we wait to put in CI/CD, the more painful it's going to be; we're already seeing developers make mistakes with the number of customers we currently have, and adding more customers can only lead to more mistakes (and consequently more time sunk into fixing these myriad one-off mistakes). Taking care of these issues is a real time sink, especially when these mistakes are repeated over and over again. You can imagine time spent context switching, figure out a specific customer's deployment, fixing your bug and having to update other deployments, etc. At the end of the day, it's all just a mess of deploymental cross-your-fingers and hope your release doesn't explode.
+
+To speak to some of your concerns:
+
+- Engineering time. No doubt about it, this will take time--nothing we're going to do is free. The benefits really outweigh the cost, though, since we'll be able to proactively fix these issues instead of waiting for customers to figure out what mistakes we made. That's already a huge win since we don't have to hotfix a live system with someone waiting on the other side, but it also makes us look a lot better from a customer standpoint.
+
+- Sprint releases. The time we're spending deploying and fixing is a non-trivial fraction of each sprint, this investment would really free up that time to work on other big-ticket items. Maybe we won't get to release this sprint if we do CI/CD, but it'll pay for itself in the long-term.
+
+- The teams use different technologies. I don't necessarily see why this is an issue; a good pipeline will be able to test each team's features separately, just like how data flows through our real pipeline. Each team should also already be writing their own tests which we can leverage (if a team isn't, that's an issue and another conversation)
+
+- Too many customer configs. I actually think this is a major benefit to us that customers have different configs on different deployments: nobody said we have to upgrade all our customers at once. We can actually upgrade customer deployments sequentially (given the issues we sometimes run into, it's basically sequential now anyways) instead of in parallel. This means we can choose a customer, apply config, run tests, and then upgrade automatically. This way, we'll figure out not just issues, but also which customer an issue originates from and decide whether the problem is on their end or ours. This should be a pretty fast process unless there are failures, in which case we shouldn't be releasing to that customer anyways. Eventually we'll move to a more parallel deployment model, but by that time we should have a more full-fledged QA team to do testing before a release.
+
+We'll just get a lot more time back coupled with large gains in the flexibility of our deployments if we add in a CI/CD system. Sure, we'll have to invest in some time to set this up, but things will be net positive very quickly. This whole manual upgrade nonsense isn't going to keep working for much longer, and we should just do away with it now since it's already causing problems.
+
+Feel free to grab ahold of me and have an in-person chat, but I can't stress enough how important it is to do this
+sooner rather than later.
+
+Best,
+Kenny
